@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>title</title>
+        <link rel="stylesheet" type="text/css" href="../css/api.css" />
+        <link rel="stylesheet" type="text/css" href="../fonts/iconfont.css" />
+        <link rel="stylesheet" type="text/css" href="../fonts1/iconfont.css" />
+        <style>
+            html,
+            body {
+                height: 100%;
+                font-family: '微软雅黑';
+                font-size: 14px;
+            }
+            
+            #title h1 {
+                display: -webkit-box;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                font-size: 20px;
+            }
+            
+            #title {
+                margin: 15px 15px 0 20px;
+                padding-bottom: 5px;
+                border-bottom: 2px solid #eff2f5;
+            }
+            
+            #title p {
+                color: #9a9795;
+                margin-top: 10px;
+            }
+            
+            #title p span {
+                color: #b41f23;
+                margin-left: 5px;
+            }
+            
+            #title ul {
+                margin-top: 5px;
+            }
+            
+            #title ul li span {
+                font-size: 12px;
+                color: #9a9795;
+            }
+            
+            #text {
+                margin: 10px 15px 0 20px;
+                font-size: 16px;
+            }
+            #text p{
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+
+    <body id="content">
+     
+    </body>
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript">
+         var content;
+        var articleId;
+        apiready = function() {   
+            var content=$api.byId('content');
+            articleId=api.pageParam.articleId;
+          
+                api.ajax({
+                url: 'http://47.92.28.251:1024/article/'+articleId,
+                method: 'get',
+            }, function(ret, err) {  //返回文章內容
+                if (ret) {         
+                        var articleContent="";
+                        var temp="";
+                        var pContent="";
+                        if(ret.videoFrame!==null){
+                            pContent=ret.videoFrame+ret.detail;
+                        }
+                        else{
+                            pContent=ret.detail;
+                        }
+                        temp= '<div id="title"><h1>'+ret.title+'</h1> <p>来源:<span>' +ret.university+ '</span><p> <ul><li style="margin-right: 10px;float: left;"><span class="iconfont" style="margin-right: 3px;">&#xe674;</span><span>'+ret.vedioUrl+'</span></li><li style="float: left;"><span class="iconfont" style="margin-right: 3px;">&#xe60d;</span><span>'+ret.fancy+'</span></li><li style="float: right;"><span style="margin-right: 5px">'+ret.updatedAt+'</span><span>'+ret.createdAt+'</span></li><div class="clearfix"></div></ul></div><div id="text"><p>'+ret.summary+' </p><p>'+pContent+'</p></div>'; 
+                        articleContent+=temp;
+                        $api.html(content,articleContent);
+                    // }
+                }
+            });
+        }
+    </script>
+
+</html>
